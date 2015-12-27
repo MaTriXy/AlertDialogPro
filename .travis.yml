@@ -2,12 +2,16 @@ language: android
 
 android:
   components:
-    - build-tools-21.1.2
-    - android-21
+    - android-23
+    - build-tools-23.0.1
     - extra
 
 notifications:
   email: false
+
+cache:
+  directories:
+  - $HOME/.gradle
 
 script:
   ./gradlew clean build
