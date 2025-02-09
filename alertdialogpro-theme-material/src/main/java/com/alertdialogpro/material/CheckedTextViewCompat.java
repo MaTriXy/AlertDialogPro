@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.TintManager;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -38,7 +38,7 @@ public class CheckedTextViewCompat extends TextView implements Checkable {
             android.R.attr.state_checked
     };
 
-    private final TintManager mTintManager;
+    private AppCompatDrawableManager mDrawableManager;
 
     private Field mPaddingLeftField;
     private Field mPaddingRightField;
@@ -67,7 +67,7 @@ public class CheckedTextViewCompat extends TextView implements Checkable {
 
         a.recycle();
 
-        mTintManager = a.getTintManager();
+        mDrawableManager = AppCompatDrawableManager.get();
     }
 
     public void toggle() {
@@ -78,11 +78,6 @@ public class CheckedTextViewCompat extends TextView implements Checkable {
         return mChecked;
     }
 
-    /**
-     * <p>Changes the checked state of this text view.</p>
-     *
-     * @param checked true to check the text, false to uncheck it
-     */
     public void setChecked(boolean checked) {
         if (mChecked != checked) {
             mChecked = checked;
@@ -95,15 +90,15 @@ public class CheckedTextViewCompat extends TextView implements Checkable {
      * Set the checkmark to a given Drawable, identified by its resourece id. This will be drawn
      * when {@link #isChecked()} is true.
      *
-     * @param resid The Drawable to use for the checkmark.
+     * @param resId The Drawable to use for the checkmark.
      */
-    public void setCheckMarkDrawable(int resid) {
-        if (resid != 0 && resid == mCheckMarkResource) {
+    public void setCheckMarkDrawable(int resId) {
+        if (resId != 0 && resId == mCheckMarkResource) {
             return;
         }
 
-        mCheckMarkResource = resid;
-        setCheckMarkDrawable(mTintManager.getDrawable(resid));
+        mCheckMarkResource = resId;
+        setCheckMarkDrawable(mDrawableManager.getDrawable(getContext(), resId));
     }
 
     /**
@@ -159,7 +154,6 @@ public class CheckedTextViewCompat extends TextView implements Checkable {
      * Gets the checkmark drawable
      *
      * @return The drawable use to represent the checkmark, if any.
-     * @attr ref android.R.styleable#CheckedTextView_checkMark
      * @see #setCheckMarkDrawable(Drawable)
      * @see #setCheckMarkDrawable(int)
      */
